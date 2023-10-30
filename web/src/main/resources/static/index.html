@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        /* Votre CSS personnalisé */
+    </style>
+</head>
+<body>
+<div class="splashscreen d-flex align-items-center justify-content-center ng-cloak">
+    <h1>BiblioTech<br/>
+        <small class="text-secondary">loading...</small>
+    </h1>
+</div>
+<div class="fluid-container" ng-controller="BooksController as ctrl">
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+            <a class="navbar-brand" href="#">BiblioTech</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Modal -->
+    <!-- Votre contenu Modal ici -->
+
+    <ul class="list-group">
+        <!-- Boucle sur les livres -->
+        <li ng-repeat="(id, title) in ctrl.books" class="list-group-item">
+            {{ title }}
+            <!-- Bouton pour afficher les détails du livre -->
+            <a class="btn btn-primary float-right" href="#" role="button" data-toggle="modal" data-target="#exampleModal" ng-click="ctrl.loadModal(id)">getDetails</a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    angular.module("bibliotech", []).controller("BooksController", function ($http) {
+        var that = this;
+        // Exemple de requête API pour obtenir la liste des livres
+        // Remplacez cela par votre propre appel d'API
+        $http({
+            method: 'GET',
+            url: '<Exemple de requête API pour obtenir la liste des livres>'
+        }).then(function successCallback(response) {
+            that.books = response.data;
+        });
+
+        var refreshSelected = function (bookId) {
+            this.selected = {};
+            // Exemple de requête API pour obtenir les détails d'un livre
+            // Remplacez cela par votre propre appel d'API
+            $http({
+                method: 'GET',
+                url: '<Exemple de requête API pour obtenir les détails d'un livre>'
+            }).then(function successCallback(response) {
+                that.selected = response.data;
+                that.selected.author = that.selected.authors.join(", ");
+            });
+
+        };
+        this.loadModal = function (bookId) {
+            refreshSelected(bookId);
+        }
+
+        this.addReview = function (score) {
+            var review = {"score": score, "book": {"id": this.selected.id}, "dateOfReview": new Date()};
+            // Exemple de requête API pour ajouter un avis
+            // Remplacez cela par votre propre appel d'API
+            $http({
+                method: 'POST',
+                url: '<Exemple de requête API pour ajouter un avis>',
+                data: review
+            }).then(function successCallback(response) {
+                refreshSelected(that.selected.id);
+            });
+        }
+
+        this.deleteReview = function (reviewId) {
+            // Exemple de requête API pour supprimer un avis
+            // Remplacez cela par votre propre appel d'API
+            $http({
+                method: 'DELETE',
+                url: '<Exemple de requête API pour supprimer un avis>' + reviewId,
+            }).then(function successCallback(response) {
+                refreshSelected(that.selected.id);
+            });
+        }
+    });
+</script>
+</body>
+</html>
