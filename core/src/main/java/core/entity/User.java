@@ -1,6 +1,13 @@
 package core.entity;
 
-public class User {
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+public class User implements Comparable<User> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String username;
     private String password;
@@ -53,5 +60,10 @@ public class User {
                 ", password='" + password + '\'' +
                 ", mail='" + mail + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(final User o) {
+        return username.compareTo(o.username);
     }
 }

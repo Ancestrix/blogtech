@@ -1,11 +1,12 @@
 package app.config;
 
 
-import junia.lab07.api.config.ApiConfig;
-import junia.lab07.core.config.CoreConfig;
-import junia.lab07.web.config.WebConfig;
+
+import api.config.ApiConfig;
+import core.config.CoreConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import web.config.WebConfig;
 
 @Configuration
 @Import({CoreConfig.class, ApiConfig.class, WebConfig.class})

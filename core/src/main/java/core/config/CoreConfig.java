@@ -7,9 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "core.dao")
 @EntityScan(basePackages = "core.entity")
-@ComponentScan(basePackages = "core.service")
+@ComponentScan(basePackages = {"core.service","core.controller","core.dto"})
 public class CoreConfig
 {
 }
