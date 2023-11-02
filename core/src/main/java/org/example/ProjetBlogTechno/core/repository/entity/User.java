@@ -13,14 +13,14 @@ public class User implements Comparable<User> {
     private String password;
     private String mail;
 
-    public User(int id, String username, String password, String mail) {
+    public User() {
         this.id = id;
         this.username = username;
         this.password = password;
         this.mail = mail;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -66,4 +66,6 @@ public class User implements Comparable<User> {
     public int compareTo(final User o) {
         return username.compareTo(o.username);
     }
+
+
 }
