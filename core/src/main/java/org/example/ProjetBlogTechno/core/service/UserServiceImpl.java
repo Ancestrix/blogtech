@@ -8,14 +8,14 @@ import java.util.*;
 
 @Service
 public interface UserServiceImpl {
-        UserDTO saveUser(UserDTO userDTO);
+        public UserDTO saveUser(UserDTO userDTO);
 
-        boolean deleteUser(Long id);
-        boolean deleteAllUser();
+        public boolean deleteUser(Long id);
+        public boolean deleteAllUser();
 
 
-        List<UserDTO> listUser();
+        public List<UserDTO> listUser();
 
-        UserDTO getUserById(Long id);
+        public UserDTO getUserById(Long id);
     }
 
