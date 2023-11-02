@@ -15,10 +15,6 @@ import java.util.stream.*;
 public class ArticleService implements ArticleServiceImpl {
     private final ArticleImpl articleImpl;
 
-    public ArticleImpl getArticleImpl() {
-        return articleImpl;
-    }
-
     @Autowired
     public ArticleService( ArticleImpl articleImpl) {
         this.articleImpl = articleImpl;
@@ -41,6 +37,12 @@ public class ArticleService implements ArticleServiceImpl {
     }
 
     @Override
+    public boolean deleteAllArticle() {
+        articleImpl.deleteAll();
+        return true;
+    }
+
+    @Override
     public boolean addCommentToArticle(Long id, CommentDTO commentDTO) {
         return false;
     }
@@ -50,13 +52,18 @@ public class ArticleService implements ArticleServiceImpl {
         final  Stream<Article> articleStream= articleImpl.findAll().stream();
         return articleStream.map(this::toDTO).toList();
     }
+    public ArticleDTO getArticleById(Long id) {
+        final Article article= articleImpl.findById(id).orElse(null);
+        return toDTO(article);
+    }
 
   private ArticleDTO toDTO(Article entity){
         if(null==entity){
             return null;
         }
         ArticleDTO dto = new ArticleDTO();
-        dto.setTitre(entity.getTitre());
+      dto.setTitre(entity.getTitre());
+      dto.setContenu(entity.getContenu());
         dto.setId(entity.getId());
         return dto;
     }
@@ -67,6 +74,7 @@ public class ArticleService implements ArticleServiceImpl {
         }
         Article entity = new Article();
         entity.setTitre(dto.getTitre());
+        entity.setContenu(dto.getContenu());
         return entity;
     }
 }

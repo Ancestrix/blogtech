@@ -16,16 +16,16 @@
         /* Votre CSS personnalisé */
     </style>
 </head>
-<body>
+<body ng-app="bibliotech" ng-controller="ArticleController as ctrl">
 <div class="splashscreen d-flex align-items-center justify-content-center ng-cloak">
-    <h1>BiblioTech<br/>
-        <small class="text-secondary">loading...</small>
+    <h1>BlogTech<br/>
+        <small class="text-secondary">Chargement en cours...</small>
     </h1>
 </div>
-<div class="fluid-container" ng-controller="BooksController as ctrl">
+<div class="fluid-container">
     <header>
         <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-            <a class="navbar-brand" href="#">BiblioTech</a>
+            <a class="navbar-brand" href="#">BlogTech</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,69 +34,75 @@
 
     <!-- Modal -->
     <!-- Votre contenu Modal ici -->
+    <button class="btn btn-danger" ng-click="ctrl.deleteAllArticles()">Supprimer tous les articles</button>
 
     <ul class="list-group">
-        <!-- Boucle sur les livres -->
-        <li ng-repeat="(id, title) in ctrl.books" class="list-group-item">
-            {{ title }}
-            <!-- Bouton pour afficher les détails du livre -->
-            <a class="btn btn-primary float-right" href="#" role="button" data-toggle="modal" data-target="#exampleModal" ng-click="ctrl.loadModal(id)">getDetails</a>
+        <!-- Boucle sur les articles -->
+        <li ng-repeat="article in ctrl.articles" class="list-group-item">
+            {{ article.titre }}
+            <!-- Bouton pour afficher les détails de l'article -->
+            <a class="btn btn-primary float-right" href="#" ng-click="ctrl.showDetails(article.id)">Voir les détails</a>
         </li>
+
     </ul>
+
+
 </div>
 
 <script>
-    angular.module("bibliotech", []).controller("BooksController", function ($http) {
+
+    angular.module("bibliotech", []).controller("ArticleController", function ($http) {
+        this.showDetails = function (id) {
+            // Redirigez l'utilisateur vers la page des détails de l'article en passant l'ID dans la requête
+            window.location.href = 'article-details.html?id=' + id;
+        };
+
+
+
         var that = this;
-        // Exemple de requête API pour obtenir la liste des livres
+        // Exemple de requête API pour obtenir la liste des articles
         // Remplacez cela par votre propre appel d'API
         $http({
             method: 'GET',
-            url: '<Exemple de requête API pour obtenir la liste des livres>'
+            url: 'http://localhost:8080/articles'
         }).then(function successCallback(response) {
-            that.books = response.data;
+            that.articles = response.data;
         });
 
-        var refreshSelected = function (bookId) {
-            this.selected = {};
-            // Exemple de requête API pour obtenir les détails d'un livre
+        var refreshSelected = function (articleId) {
+            that.selected = {};
+            // Exemple de requête API pour obtenir les détails d'un article
             // Remplacez cela par votre propre appel d'API
             $http({
                 method: 'GET',
-                url: '<Exemple de requête API pour obtenir les détails d'un livre>'
+                url: 'http://localhost:8080/articles/' + articleId // Remplacez par l'URL correcte pour obtenir les détails de l'article
             }).then(function successCallback(response) {
                 that.selected = response.data;
-                that.selected.author = that.selected.authors.join(", ");
             });
-
         };
-        this.loadModal = function (bookId) {
-            refreshSelected(bookId);
-        }
 
-        this.addReview = function (score) {
-            var review = {"score": score, "book": {"id": this.selected.id}, "dateOfReview": new Date()};
-            // Exemple de requête API pour ajouter un avis
-            // Remplacez cela par votre propre appel d'API
-            $http({
-                method: 'POST',
-                url: '<Exemple de requête API pour ajouter un avis>',
-                data: review
-            }).then(function successCallback(response) {
-                refreshSelected(that.selected.id);
-            });
+        this.loadModal = function (articleId) {
+            refreshSelected(articleId);
         }
-
-        this.deleteReview = function (reviewId) {
-            // Exemple de requête API pour supprimer un avis
+        this.deleteAllArticles = function() {
+            // Exemple de requête API pour supprimer tous les articles
             // Remplacez cela par votre propre appel d'API
             $http({
                 method: 'DELETE',
-                url: '<Exemple de requête API pour supprimer un avis>' + reviewId,
+                url: 'http://localhost:8080/articles'
             }).then(function successCallback(response) {
-                refreshSelected(that.selected.id);
+                // Mettez à jour la liste des articles après la suppression
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:8080/articles'
+                }).then(function successCallback(response) {
+                    that.articles = response.data;
+                });
             });
         }
+
+
+        // Vous pouvez ajouter d'autres fonctions pour ajouter ou supprimer des commentaires, par exemple.
     });
 </script>
 </body>

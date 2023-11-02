@@ -21,6 +21,13 @@ public class ArticleDTO {
         this.titre = titre;
     }
 
+    private String contenu;
 
+    public String getContenu() {
+        return contenu;
+    }
 
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
 }

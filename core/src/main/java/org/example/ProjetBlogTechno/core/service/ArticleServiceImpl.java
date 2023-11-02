@@ -12,8 +12,11 @@ public interface ArticleServiceImpl {
     public ArticleDTO saveArticle(ArticleDTO articleDTO);
 
     public boolean deleteArticle(Long id);
+    public boolean deleteAllArticle();
 
     public boolean addCommentToArticle(Long id, CommentDTO commentDTO);
 
     public List<ArticleDTO> listArticles();
+
+    public ArticleDTO getArticleById(Long id);
 }
