@@ -1,10 +1,8 @@
 package org.example.ProjetBlogTechno.core.service.impl;
 
 import org.example.ProjetBlogTechno.core.dto.UserDTO;
-import org.example.ProjetBlogTechno.core.dto.CommentDTO;
 import org.example.ProjetBlogTechno.core.repository.UserImpl;
 import org.example.ProjetBlogTechno.core.repository.entity.User;
-
 import org.example.ProjetBlogTechno.core.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,11 +42,6 @@ public class UserService implements UserServiceImpl  {
     }
 
     @Override
-    public boolean addCommentToUser(Long id, CommentDTO commentDTO) {
-        return false;
-    }
-
-    @Override
     public List<UserDTO> listUser() {
         final Stream<User> userStream= userImpl.findAll().stream();
         return userStream.map(this::toDTO).toList();
@@ -76,7 +69,6 @@ public class UserService implements UserServiceImpl  {
         }
         User entity = new User();
         entity.setUsername(dto.getUsername());
-
         entity.setPassword(dto.getPassword());
         entity.setMail(dto.getMail());
         return entity;

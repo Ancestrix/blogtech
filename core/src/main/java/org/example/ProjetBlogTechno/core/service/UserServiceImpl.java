@@ -1,6 +1,5 @@
 package org.example.ProjetBlogTechno.core.service;
 
-import org.example.ProjetBlogTechno.core.dto.CommentDTO;
 import org.example.ProjetBlogTechno.core.dto.UserDTO;
 import org.springframework.stereotype.*;
 
@@ -9,15 +8,14 @@ import java.util.*;
 
 @Service
 public interface UserServiceImpl {
-        public UserDTO saveUser(UserDTO userDTO);
+        UserDTO saveUser(UserDTO userDTO);
 
-        public boolean deleteUser(Long id);
-        public boolean deleteAllUser();
+        boolean deleteUser(Long id);
+        boolean deleteAllUser();
 
-        boolean addCommentToUser(Long id, CommentDTO commentDTO);
 
-        public List<UserDTO> listUser();
+        List<UserDTO> listUser();
 
-        public UserDTO getUserById(Long id);
+        UserDTO getUserById(Long id);
     }
 

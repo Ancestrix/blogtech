@@ -3,8 +3,7 @@ package org.example.ProjetBlogTechno.core.dto;
 public class UserDTO {
     private Long id;
 
-    public UserDTO() {
-    }
+    public UserDTO() {}
 
     public Long getId() {
         return id;
