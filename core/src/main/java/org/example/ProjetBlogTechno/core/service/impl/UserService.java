@@ -64,6 +64,7 @@ public class UserService implements UserServiceImpl  {
         }
         UserDTO dto = new UserDTO();
         dto.setUsername(entity.getUsername());
+        dto.getPassword(entity.getPassword());
         dto.setMail(entity.getMail());
         dto.setId(entity.getId());
         return dto;
@@ -75,7 +76,7 @@ public class UserService implements UserServiceImpl  {
         }
         User entity = new User();
         entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(dto.getPassword(entity.getPassword()));
         entity.setMail(dto.getMail());
         return entity;
     }

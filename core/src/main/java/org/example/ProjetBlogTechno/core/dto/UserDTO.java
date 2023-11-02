@@ -26,10 +26,13 @@ public class UserDTO {
 
     private String password;
 
-    public String getPassword() {
-        return password;
+    public String getPassword(String password) {
+        return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     private String mail;
 
