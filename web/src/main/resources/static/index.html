@@ -19,7 +19,6 @@
 <body ng-app="bibliotech" ng-controller="ArticleController as ctrl">
 <div class="splashscreen d-flex align-items-center justify-content-center ng-cloak">
     <h1>BlogTech<br/>
-        <small class="text-secondary">Chargement en cours...</small>
     </h1>
 </div>
 <div class="fluid-container">
@@ -29,8 +28,28 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="lien_vers_la_page_d_inscription">S'inscrire</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="lien_vers_la_page_de_connexion">Se connecter</a>
+                </li>
+            </ul>
         </nav>
     </header>
+
+    <form ng-submit="ctrl.addArticle(newArticle)">
+        <div class="form-group">
+            <label for="titre">Titre de l'article:</label>
+            <input type="text" class="form-control" id="titre" ng-model="newArticle.titre" required>
+        </div>
+        <div class="form-group">
+            <label for="contenu">Contenu de l'article:</label>
+            <textarea class="form-control" id="contenu" ng-model="newArticle.contenu" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter l'article</button>
+    </form>
 
     <!-- Modal -->
     <!-- Votre contenu Modal ici -->
@@ -41,7 +60,7 @@
         <li ng-repeat="article in ctrl.articles" class="list-group-item">
             {{ article.titre }}
             <!-- Bouton pour afficher les détails de l'article -->
-            <a class="btn btn-primary float-right" href="#" ng-click="ctrl.showDetails(article.id)">Voir les détails</a>
+            <a class="btn btn-primary float-right" ng-click="ctrl.showDetails(article.id)">Voir les détails</a>
         </li>
 
     </ul>
@@ -51,13 +70,31 @@
 
 <script>
 
+
     angular.module("bibliotech", []).controller("ArticleController", function ($http) {
         this.showDetails = function (id) {
             // Redirigez l'utilisateur vers la page des détails de l'article en passant l'ID dans la requête
+            window.localStorage.setItem("id",id);
             window.location.href = 'article-details.html?id=' + id;
         };
-
-
+        console.log("test index")
+        this.addArticle = function (newArticle) {
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8080/articles',
+                data: newArticle
+            }).then(function successCallback(response) {
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:8080/articles'
+                }).then(function successCallback(response) {
+                    that.articles = response.data;
+                });
+                // Réinitialisez le formulaire
+                newArticle.titre = '';
+                newArticle.contenu = '';
+            });
+        };
 
         var that = this;
         // Exemple de requête API pour obtenir la liste des articles

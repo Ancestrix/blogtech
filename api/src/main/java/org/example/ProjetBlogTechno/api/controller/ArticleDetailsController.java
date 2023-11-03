@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController()
-@RequestMapping("/article-detail")
+@RequestMapping("/article-details.html")
 public class ArticleDetailsController {
 
 
@@ -24,6 +24,7 @@ public class ArticleDetailsController {
 
         if (articleDTO != null) {
             model.addAttribute("article", articleDTO);
+            System.out.println(model.getAttribute("article"));
             return articleDTO; // Assurez-vous que le nom de la vue (article-details) correspond à votre configuration.
         } else {
             // Gérez le cas où l'article n'est pas trouvé, par exemple, en redirigeant vers une page d'erreur.

@@ -22,7 +22,7 @@ public class ArticleController {
 
     @GetMapping()
     public List<ArticleDTO> getArticleDTOList(ModelMap model){
-        model.addAttribute("articles",articleService.listArticles());
+        model.addAttribute("articlesList",articleService.listArticles());
         return articleService.listArticles();
     }
     @GetMapping("/{id}")
