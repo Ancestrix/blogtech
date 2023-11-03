@@ -18,7 +18,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public List<UserDTO> getArticleDTOList(ModelMap model){
+    public List<UserDTO> getUserDTOList(ModelMap model){
         model.addAttribute("user", userService.listUser());
         return userService.listUser();
     }

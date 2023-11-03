@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+</head>
+
+<body ng-app="bibliotech" ng-controller="UserController as ctrl">
+<div class="container mt-5">
+    <a class="btn btn-secondary" ng-click="ctrl.goBack()">Retour</a>
+    <h1 class="mt-3">Inscription</h1>
+
+    <form ng-submit="ctrl.registerUser(newUser)">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" ng-model="newUser.username" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" ng-model="newUser.password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="mail">Adresse mail</label>
+            <input type="text" id="mail" ng-model="newUser.mail" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+</div>
+
+<script>
+    var bibliotech = angular.module("bibliotech", [])
+    bibliotech.controller("UserController", function ($http) {
+
+        this.goBack = function () {
+            window.history.back();
+        };
+
+        this.registerUser = function (newUser) {
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8080/user',
+                data: newUser
+            }).then(function successCallback(response) {
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:8080/articles'
+                }).then(function successCallback(response) {
+                    this.user = response.data;
+                });
+
+                newUser.username = "";
+                newUser.password = "";
+                newUser.mail = "";
+
+                alert('Inscription réussie !');
+            }, function errorCallback(response) {
+                alert('Erreur lors de l\'inscription : ' + response.data.error);
+            });
+        };
+    });
+
+</script>
+</body>
+
+</html>
